@@ -137,7 +137,7 @@ describe("UCSBOrganizationIndexPage tests", () => {
           expect(header).toBeInTheDocument();
         });
 
-        expect(queryByTestId(`${testId}-cell-row-0-col-code`)).not.toBeInTheDocument();
+        expect(queryByTestId(`${testId}-cell-row-0-col-orgCode`)).not.toBeInTheDocument();
     });
 
     test("test what happens when you click delete, admin", async () => {
