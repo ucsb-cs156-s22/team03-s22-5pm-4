@@ -45,15 +45,15 @@ export default function RecommendationsTable({ recommendations, currentUser }) {
         },
         {
             Header: 'Professor Email',
-            id: 'professorEmail',
+            accessor: 'professorEmail',
         },
         {
             Header: 'Explanation',
-            id: 'explanation', // needed for tests
+            accessor: 'explanation', // needed for tests
         },
         {
             Header: 'Date Requested',
-            id: 'dateRequested', // needed for tests
+            accessor: 'dateRequested', // needed for tests
         },
         {
             Header: 'Date Needed',
@@ -61,7 +61,7 @@ export default function RecommendationsTable({ recommendations, currentUser }) {
         },
         {
             Header: 'Done?',
-            accessor: 'done',
+            id: 'done',
             accessor: (row, _rowIndex) => String(row.done) // hack needed for boolean values to show up
         }
     ];
