@@ -10,7 +10,7 @@ export default {
 
 const Template = (args) => {
     return (
-        <Recommendations {...args} />
+        <RecommendationsTable {...args} />
     )
 };
 
