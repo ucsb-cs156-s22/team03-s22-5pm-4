@@ -23,7 +23,7 @@ Empty.args = {
 export const ThreeRecommendations = Template.bind({});
 
 ThreeRecommendations.args = {
-    Recommendations: recommendationsFixtures.threeRecommendations
+    recommendations: recommendationsFixtures.threeRecommendations
 };
 
 
