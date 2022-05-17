@@ -74,6 +74,14 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                   </NavDropdown>
                 )
               }
+              {
+                hasRole(currentUser, "ROLE_USER") && (
+                  <NavDropdown title="Articles" id="appnavbar-articles-dropdown" data-testid="appnavbar-todos-dropdown" >
+                    <NavDropdown.Item as={Link} to="/articles/list">List Todos</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/articles/create">Create Todo</NavDropdown.Item>
+                  </NavDropdown>
+                )
+              }
             </Nav>
 
             <Nav className="ml-auto">
