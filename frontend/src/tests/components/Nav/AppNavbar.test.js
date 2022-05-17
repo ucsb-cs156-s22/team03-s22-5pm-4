@@ -62,7 +62,7 @@ describe("AppNavbar tests", () => {
         await waitFor(() => expect(getByText("H2Console")).toBeInTheDocument());
         const swaggerMenu = getByText("Swagger");
         expect(swaggerMenu).toBeInTheDocument();        
-    });
+    });//
 
 
     test("renders the todos menu correctly", async () => {
