@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ArticleTable from "main/components/Article/ArticleTable";
-import { ArticleFixtures } from 'fixtures/ArticleFixtures';
+import { articleFixtures } from 'fixtures/ArticleFixtures';
 
 export default {
     title: 'components/Article/ArticleTable',
@@ -23,7 +23,7 @@ Empty.args = {
 export const threeArticles = Template.bind({});
 
 threeArticles.args = {
-    article: ArticleFixtures.threeArticles
+    article: articleFixtures.threeArticles
 };
 
 
