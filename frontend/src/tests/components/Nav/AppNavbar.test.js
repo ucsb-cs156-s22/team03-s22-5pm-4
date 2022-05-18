@@ -238,7 +238,50 @@ describe("AppNavbar tests", () => {
     });
 
     test("renders the ucsbdiningcommonsmenuitem menu correctly for a user", async () => {
+        const currentUser = currentUserFixtures.userOnly;
+        const systemInfo = systemInfoFixtures.showingBoth;
 
+        const doLogin = jest.fn();
+
+        const {getByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} systemInfo={systemInfo} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        await waitFor(() => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown")).toBeInTheDocument());
+        const dropdown = getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown");
+        const aElement = dropdown.querySelector("a");
+        expect(aElement).toBeInTheDocument();
+        aElement?.click();
+        await waitFor( () => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-list")).toBeInTheDocument() );
+
+    });
+
+  test("renders the ucsbdiningcommonsmenuitem menu correctly for an admin", async () => {
+        const currentUser = currentUserFixtures.adminUser;
+        const systemInfo = systemInfoFixtures.showingBoth;
+
+        const doLogin = jest.fn();
+
+        const {getByTestId  } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <AppNavbar currentUser={currentUser} systemInfo={systemInfo} doLogin={doLogin} />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        await waitFor(() => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown")).toBeInTheDocument());
+        const dropdown = getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown");
+        const aElement = dropdown.querySelector("a");
+        expect(aElement).toBeInTheDocument();
+        aElement?.click();
+        await waitFor( () => expect(getByTestId(/appnavbar-ucsbdiningcommonsmenuitem-create/)).toBeInTheDocument() );
+
+    });
+    
+  test("renders the recommendations menu correctly for a user", async () => {
         const currentUser = currentUserFixtures.userOnly;
         const systemInfo = systemInfoFixtures.showingBoth;
 
@@ -252,16 +295,16 @@ describe("AppNavbar tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown")).toBeInTheDocument());
-        const dropdown = getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown");
+        await waitFor(() => expect(getByTestId("appnavbar-recommendations-dropdown")).toBeInTheDocument());
+        const dropdown = getByTestId("appnavbar-recommendations-dropdown");
         const aElement = dropdown.querySelector("a");
         expect(aElement).toBeInTheDocument();
         aElement?.click();
-        await waitFor( () => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-list")).toBeInTheDocument() );
+        await waitFor( () => expect(getByTestId("appnavbar-recommendations-list")).toBeInTheDocument() );
 
-    });
+    }); 
 
-    test("renders the ucsbdiningcommonsmenuitem menu correctly for an admin", async () => {
+    test("renders the recommendations menu correctly for an admin", async () => {
 
         const currentUser = currentUserFixtures.adminUser;
         const systemInfo = systemInfoFixtures.showingBoth;
@@ -275,16 +318,14 @@ describe("AppNavbar tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
-        await waitFor(() => expect(getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown")).toBeInTheDocument());
-        const dropdown = getByTestId("appnavbar-ucsbdiningcommonsmenuitem-dropdown");
+        await waitFor(() => expect(getByTestId("appnavbar-recommendations-dropdown")).toBeInTheDocument());
+        const dropdown = getByTestId("appnavbar-recommendations-dropdown");
         const aElement = dropdown.querySelector("a");
         expect(aElement).toBeInTheDocument();
         aElement?.click();
-        await waitFor( () => expect(getByTestId(/appnavbar-ucsbdiningcommonsmenuitem-create/)).toBeInTheDocument() );
+        await waitFor( () => expect(getByTestId(/appnavbar-recommendations-list/)).toBeInTheDocument() );
 
     });
-   
 });
 
 
