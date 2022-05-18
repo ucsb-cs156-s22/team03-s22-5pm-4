@@ -1,21 +1,21 @@
-import OurTable from "main/components/OurTable";
-// import { useBackendMutation } from "main/utils/useBackend";
-// import {  onDeleteSuccess } from "main/utils/UCSBDateUtils"
+import OurTable, { ButtonColumn } from "main/components/OurTable";
+import { useBackendMutation } from "main/utils/useBackend";
+import {  onDeleteSuccess } from "main/utils/UCSBDateUtils"
 // import { useNavigate } from "react-router-dom";
-// import { hasRole } from "main/utils/currentUser";
+import { hasRole } from "main/utils/currentUser";
 
 
-// export function cellToAxiosParamsDelete(cell) {
-//     return {
-//         url: "/api/ucsbdiningcommons",
-//         method: "DELETE",
-//         params: {
-//             code: cell.row.values.code
-//         }
-//     }
-// }
+export function cellToAxiosParamsDelete(cell) {
+    return {
+        url: "/api/HelpRequest",
+        method: "DELETE",
+        params: {
+            id: cell.row.values.id
+        }
+    }
+}
 
-export default function HelpRequestTable({ helpRequest, _currentUser }) {
+export default function HelpRequestTable({ helpRequest, currentUser }) {
 
     // const navigate = useNavigate();
 
@@ -24,15 +24,15 @@ export default function HelpRequestTable({ helpRequest, _currentUser }) {
     // }
 
     // Stryker disable all : hard to test for query caching
-    // const deleteMutation = useBackendMutation(
-    //     cellToAxiosParamsDelete,
-    //     { onSuccess: onDeleteSuccess },
-    //     ["/api/ucsbdiningcommons/all"]
-    // );
-    // // Stryker enable all 
+    const deleteMutation = useBackendMutation(
+        cellToAxiosParamsDelete,
+        { onSuccess: onDeleteSuccess },
+        ["/api/HelpRequest/all"]
+    );
+    // Stryker enable all 
 
-    // // Stryker disable next-line all : TODO try to make a good test for this
-    // const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
+    // Stryker disable next-line all : TODO try to make a good test for this
+    const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
 
 
@@ -82,13 +82,13 @@ export default function HelpRequestTable({ helpRequest, _currentUser }) {
 
     const testid = "HelpRequestTable";
 
-    // const columnsIfAdmin = [
-    //     ...columns,
-    //     // ButtonColumn("Edit", "primary", editCallback, testid),
-    //     ButtonColumn("Delete", "danger", deleteCallback, testid)
-    // ];
+    const columnsIfAdmin = [
+        ...columns,
+        // ButtonColumn("Edit", "primary", editCallback, testid),
+        ButtonColumn("Delete", "danger", deleteCallback, testid)
+    ];
 
-    const columnsToDisplay = columns;
+    const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
 
     return <OurTable
         data={helpRequest}
