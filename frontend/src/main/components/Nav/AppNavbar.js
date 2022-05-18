@@ -80,7 +80,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
                     <NavDropdown.Item as={Link} to="/ucsbdiningcommonsmenuitem/list" data-testid="appnavbar-ucsbdiningcommonsmenuitem-list">List</NavDropdown.Item>
                     {
                       hasRole(currentUser, "ROLE_ADMIN") && (
-                        <NavDropdown.Item as={Link} to="/ucsbdiningcommonsmenutiem/create" data-testid="appnavabr-ucsbdiningcommonsmenuitem-create">Create</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/ucsbdiningcommonsmenuitem/create" data-testid="appnavbar-ucsbdiningcommonsmenuitem-create">Create</NavDropdown.Item>
                       )
                     }
                   </NavDropdown>
