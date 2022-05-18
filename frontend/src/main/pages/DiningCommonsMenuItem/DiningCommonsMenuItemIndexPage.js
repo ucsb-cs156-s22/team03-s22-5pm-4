@@ -6,7 +6,7 @@ export default function DiningCommonsMenuItemIndexPage() {
       <div className="pt-2">
         <h1>Dining Commons Menu Item</h1>
         <p>
-          This is where the index page will go
+          This is where the index page will go.
         </p>
       </div>
     </BasicLayout>
