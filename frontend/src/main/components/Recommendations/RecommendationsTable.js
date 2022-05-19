@@ -5,15 +5,15 @@ import {  onDeleteSuccess } from "main/utils/UCSBDateUtils"
 import { hasRole } from "main/utils/currentUser";
 
 
-export function cellToAxiosParamsDelete(cell) {
-    return {
-        url: "/api/recommendation",
-        method: "DELETE",
-        params: {
-            id: cell.row.values.id
-        }
-    }
-}
+// export function cellToAxiosParamsDelete(cell) {
+//     return {
+//         url: "/api/recommendation",
+//         method: "DELETE",
+//         params: {
+//             id: cell.row.values.id
+//         }
+//     }
+// }
 
 export default function RecommendationsTable({ recommendations, currentUser }) {
 
@@ -24,11 +24,11 @@ export default function RecommendationsTable({ recommendations, currentUser }) {
     // }
 
     // Stryker disable all : hard to test for query caching
-    const deleteMutation = useBackendMutation(
-        cellToAxiosParamsDelete,
-        { onSuccess: onDeleteSuccess },
-        ["/api/recommendations/all"]
-    );
+    // const deleteMutation = useBackendMutation(
+    //     cellToAxiosParamsDelete,
+    //     { onSuccess: onDeleteSuccess },
+    //     ["/api/recommendations/all"]
+    // );
     // Stryker enable all 
 
     // Stryker disable next-line all : TODO try to make a good test for this
