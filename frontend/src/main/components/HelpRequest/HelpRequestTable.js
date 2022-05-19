@@ -75,7 +75,7 @@ export default function HelpRequestTable({ helpRequest, _currentUser }) {
         },
         {
             Header: 'Solved?',
-            accessor: 'solved',
+            id: 'solved',
             accessor: (row, _rowIndex) => String(row.solved)
         }
     ];
