@@ -1,4 +1,6 @@
-import { _fireEvent, render, waitFor } from "@testing-library/react";
+// dummy commit to fix merge conflict
+
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import HelpRequestIndexPage from "main/pages/HelpRequest/HelpRequestIndexPage";
@@ -6,7 +8,6 @@ import HelpRequestIndexPage from "main/pages/HelpRequest/HelpRequestIndexPage";
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-// import { diningCommonsFixtures } from "fixtures/diningCommonsFixtures";
 import { helpRequestFixtures } from "fixtures/helpRequestFixtures";
 
 import axios from "axios";
@@ -140,36 +141,34 @@ describe("UCSBDatesIndexPage tests", () => {
         expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
     });
 
-    // test("test what happens when you click delete, admin", async () => {
-    //     setupAdminUser();
+    test("test what happens when you click delete, admin", async () => {
+        setupAdminUser();
 
-    //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/HelpRequest/all").reply(200, helpRequestFixtures.threeRequests);
-    //     axiosMock.onDelete("/api/ucsbdiningcommons", {params: {code: "de-la-guerra"}}).reply(200, "DiningCommons with id de-la-guerra was deleted");
-
-
-    //     const { getByTestId } = render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <MemoryRouter>
-    //                 <HelpRequestIndexPage />
-    //             </MemoryRouter>
-    //         </QueryClientProvider>
-    //     );
-
-    //     await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
-
-    //    expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("de-la-guerra"); 
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/HelpRequest/all").reply(200, helpRequestFixtures.threeRequests);
+        axiosMock.onDelete("/api/HelpRequest", {params: {id: 1}}).reply(200, "HelpRequest with id 1 was deleted");
 
 
-    //     const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    //     expect(deleteButton).toBeInTheDocument();
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HelpRequestIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+
+       expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1"); 
+
+
+        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        expect(deleteButton).toBeInTheDocument();
        
-    //     fireEvent.click(deleteButton);
+        fireEvent.click(deleteButton);
 
-    //     await waitFor(() => { expect(mockToast).toBeCalledWith("DiningCommons with id de-la-guerra was deleted") });
+        await waitFor(() => { expect(mockToast).toBeCalledWith("HelpRequest with id 1 was deleted") });
 
-    // });
+    });
 
 });
-
-
