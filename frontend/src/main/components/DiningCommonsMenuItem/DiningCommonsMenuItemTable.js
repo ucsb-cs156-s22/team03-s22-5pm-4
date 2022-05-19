@@ -4,15 +4,15 @@ import { _useBackendMutation } from "main/utils/useBackend";
 import { _hasRole } from "main/utils/currentUser";
 
 
-export function cellToAxiosParamsDelete(cell) {
-    return {
-        url: "/api/ucsbdiningcommonsmenuitem",
-        method: "DELETE",
-        params: {
-            code: cell.row.values.code
-        }
-    }
-}
+// export function cellToAxiosParamsDelete(cell) {
+//     return {
+//         url: "/api/ucsbdiningcommonsmenuitem",
+//         method: "DELETE",
+//         params: {
+//             code: cell.row.values.code
+//         }
+//     }
+// }
 
 export default function DiningCommonsMenuItemTable({ diningCommonsMenuItem, _currentUser }) {
 
@@ -28,6 +28,10 @@ export default function DiningCommonsMenuItemTable({ diningCommonsMenuItem, _cur
     // const deleteCallback = async (cell) => { deleteMutation.mutate(cell); }
 
     const columns = [
+        {
+            Header: "ID",
+            accessor: 'id'
+        },
         {
             Header: 'Dining Commons Code',
             accessor: 'diningCommonsCode', 
