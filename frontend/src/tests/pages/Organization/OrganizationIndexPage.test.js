@@ -1,5 +1,5 @@
-//import { fireEvent, render, waitFor } from "@testing-library/react";
-import {render} from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
+// import {render} from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import OrganizationIndexPage from "main/pages/Organization/OrganizationIndexPage";
@@ -7,7 +7,7 @@ import OrganizationIndexPage from "main/pages/Organization/OrganizationIndexPage
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-//import { organizationFixtures } from "fixtures/organizationFixtures";
+import { organizationFixtures } from "fixtures/organizationFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import _mockConsole from "jest-mock-console";
@@ -27,7 +27,7 @@ describe("UCSBOrganizationIndexPage tests", () => {
 
     const axiosMock =new AxiosMockAdapter(axios);
 
-    //const testId = "DiningCommonsTable";
+    const testId = "OrganizationTable";
 
     const setupUserOnly = () => {
         axiosMock.reset();
@@ -75,99 +75,100 @@ describe("UCSBOrganizationIndexPage tests", () => {
 
     });
 
-    // test("renders three diningCommon without crashing for regular user", async () => {
-    //     setupUserOnly();
-    //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/ucsbdiningcommons/all").reply(200, diningCommonsFixtures.threeCommons);
+    test("renders three organization without crashing for regular user", async () => {
+        setupUserOnly();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/ucsborganization/all").reply(200, organizationFixtures.threeOrganizations);
 
-    //     const { getByTestId } = render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <MemoryRouter>
-    //                 <DiningCommonsIndexPage />
-    //             </MemoryRouter>
-    //         </QueryClientProvider>
-    //     );
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <OrganizationIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
 
-    //     await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-code`)).toHaveTextContent("de-la-guerra"); } );
-    //     expect(getByTestId(`${testId}-cell-row-1-col-code`)).toHaveTextContent("ortega");
-    //     expect(getByTestId(`${testId}-cell-row-2-col-code`)).toHaveTextContent("portola");
+        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-orgCode`)).toHaveTextContent("GG"); } );
+        expect(getByTestId(`${testId}-cell-row-1-col-orgCode`)).toHaveTextContent("DS");
+        expect(getByTestId(`${testId}-cell-row-2-col-orgCode`)).toHaveTextContent("CC");
 
-    // });
+    });
 
-    // test("renders three diningCommons without crashing for admin user", async () => {
-    //     setupAdminUser();
-    //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/ucsbdiningcommons/all").reply(200, diningCommonsFixtures.threeCommons);
+    test("renders three organizations without crashing for admin user", async () => {
+        setupAdminUser();
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/ucsborganization/all").reply(200, organizationFixtures.threeOrganizations);
 
-    //     const { getByTestId } = render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <MemoryRouter>
-    //                 <DiningCommonsIndexPage />
-    //             </MemoryRouter>
-    //         </QueryClientProvider>
-    //     );
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <OrganizationIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
 
-    //     await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-code`)).toHaveTextContent("de-la-guerra"); });
-    //     expect(getByTestId(`${testId}-cell-row-1-col-code`)).toHaveTextContent("ortega");
-    //     expect(getByTestId(`${testId}-cell-row-2-col-code`)).toHaveTextContent("portola");
 
-    // });
+        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-orgCode`)).toHaveTextContent("GG"); } );
+        expect(getByTestId(`${testId}-cell-row-1-col-orgCode`)).toHaveTextContent("DS");
+        expect(getByTestId(`${testId}-cell-row-2-col-orgCode`)).toHaveTextContent("CC");
 
-    // test("renders empty table when backend unavailable, user only", async () => {
-    //     setupUserOnly();
+    });
 
-    //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/ucsbdiningcommons/all").timeout();
+    test("renders empty table when backend unavailable, user only", async () => {
+        setupUserOnly();
 
-    //     const { queryByTestId, getByText } = render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <MemoryRouter>
-    //                 <DiningCommonsIndexPage />
-    //             </MemoryRouter>
-    //         </QueryClientProvider>
-    //     );
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/ucsborganization/all").timeout();
 
-    //     await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(3); });
+        const { queryByTestId, getByText } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <OrganizationIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+        
+        await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(3); });
 
-    //     const expectedHeaders = ['Code',  'Name', 'Sack Meal?','Takeout Meal?','Dining Cam?','Latitude','Longitude'];
+        const expectedHeaders = ['Org Code',  'Org Short Translation', 'Org Translation','Inactive'];
     
-    //     expectedHeaders.forEach((headerText) => {
-    //       const header = getByText(headerText);
-    //       expect(header).toBeInTheDocument();
-    //     });
+        expectedHeaders.forEach((headerText) => {
+          const header = getByText(headerText);
+          expect(header).toBeInTheDocument();
+        });
 
-    //     expect(queryByTestId(`${testId}-cell-row-0-col-code`)).not.toBeInTheDocument();
-    // });
+        expect(queryByTestId(`${testId}-cell-row-0-col-orgCode`)).not.toBeInTheDocument();
+    });
 
-    // test("test what happens when you click delete, admin", async () => {
-    //     setupAdminUser();
+    test("test what happens when you click delete, admin", async () => {
+        setupAdminUser();
 
-    //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/ucsbdiningcommons/all").reply(200, diningCommonsFixtures.threeCommons);
-    //     axiosMock.onDelete("/api/ucsbdiningcommons", {params: {code: "de-la-guerra"}}).reply(200, "DiningCommons with id de-la-guerra was deleted");
-
-
-    //     const { getByTestId } = render(
-    //         <QueryClientProvider client={queryClient}>
-    //             <MemoryRouter>
-    //                 <DiningCommonsIndexPage />
-    //             </MemoryRouter>
-    //         </QueryClientProvider>
-    //     );
-
-    //     await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-code`)).toBeInTheDocument(); });
-
-    //    expect(getByTestId(`${testId}-cell-row-0-col-code`)).toHaveTextContent("de-la-guerra"); 
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/ucsborganization/all").reply(200, organizationFixtures.threeOrganizations);
+        axiosMock.onDelete("/api/ucsborganization", {params: {orgCode: "GG"}}).reply(200, "Organizations with id GG was deleted");
 
 
-    //     const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    //     expect(deleteButton).toBeInTheDocument();
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <OrganizationIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-orgCode`)).toBeInTheDocument(); });
+
+       expect(getByTestId(`${testId}-cell-row-0-col-orgCode`)).toHaveTextContent("GG"); 
+
+
+        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        expect(deleteButton).toBeInTheDocument();
        
-    //     fireEvent.click(deleteButton);
+        fireEvent.click(deleteButton);
 
-    //     await waitFor(() => { expect(mockToast).toBeCalledWith("DiningCommons with id de-la-guerra was deleted") });
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Organizations with id GG was deleted") });
 
-    // });
+    });
 
 });
 

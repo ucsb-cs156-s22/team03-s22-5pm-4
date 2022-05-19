@@ -1,13 +1,12 @@
 import OurTable, { _ButtonColumn} from "main/components/OurTable";
 import { _useBackendMutation } from "main/utils/useBackend";
-import {  _onDeleteSuccess } from "main/utils/UCSBDateUtils"
 // import { useNavigate } from "react-router-dom";
 import { _hasRole } from "main/utils/currentUser";
 
 
 // export function cellToAxiosParamsDelete(cell) {
 //     return {
-//         url: "/api/article",
+//         url: "/api/ucsbdiningcommonsmenuitem",
 //         method: "DELETE",
 //         params: {
 //             code: cell.row.values.code
@@ -15,20 +14,14 @@ import { _hasRole } from "main/utils/currentUser";
 //     }
 // }
 
-export default function ArticleTable({ article, _currentUser }) {
-
-    // const navigate = useNavigate();
-
-    // const editCallback = (cell) => {
-    //     navigate(`/ucsbdates/edit/${cell.row.values.id}`)
-    // }
+export default function DiningCommonsMenuItemTable({ diningCommonsMenuItem, _currentUser }) {
 
     // Stryker disable all : hard to test for query caching
     // const deleteMutation = useBackendMutation(
     //     cellToAxiosParamsDelete,
     //     { onSuccess: onDeleteSuccess },
-    //     ["/api/article/all"]
-    // );
+    //     ["/api/ucsbdiningcommonsmenuitem/all"]
+    // );delet
     // Stryker enable all 
 
     // Stryker disable next-line all : TODO try to make a good test for this
@@ -36,45 +29,37 @@ export default function ArticleTable({ article, _currentUser }) {
 
     const columns = [
         {
-            Header: 'ID',
-            accessor: 'id', 
+            Header: "ID",
+            accessor: 'id'
         },
         {
-            Header: 'Title',
-            accessor: 'title',
+            Header: 'Dining Commons Code',
+            accessor: 'diningCommonsCode', 
         },
         {
-            Header: 'URL',
-            accessor: 'url',
+            Header: 'Name',
+            accessor: 'name',
         },
         {
-            Header: 'Explanation',
-            accessor: 'explanation',
-        },
-        {
-            Header: 'Email',
-            accessor: 'email',
-        },
-        {
-            Header: 'Date Added',
-            accessor: 'dateAdded',
+            Header: 'Station',
+            accessor: 'station',
         }
     ];
 
-    const testid = "ArticleTable";
+    const testid = "DiningCommonsMenuItemTable";
 
     // const columnsIfAdmin = [
     //     ...columns,
     //     // ButtonColumn("Edit", "primary", editCallback, testid),
-    //     // ButtonColumn("Delete", "danger", deleteCallback, testid)
+    //     ButtonColumn("Delete", "danger", deleteCallback, testid)
     // ];
 
-    // const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
+    //const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
 
     const columnsToDisplay = columns;
 
     return <OurTable
-        data={article}
+        data={diningCommonsMenuItem}
         columns={columnsToDisplay}
         testid={testid}
     />;

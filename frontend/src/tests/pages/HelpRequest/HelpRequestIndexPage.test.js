@@ -1,12 +1,14 @@
 import { _fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
-import ArticleIndexPage from "main/pages/Article/ArticleIndexPage";
+import HelpRequestIndexPage from "main/pages/HelpRequest/HelpRequestIndexPage";
 
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { articleFixtures } from "fixtures/ArticleFixtures";
+// import { diningCommonsFixtures } from "fixtures/diningCommonsFixtures";
+import { helpRequestFixtures } from "fixtures/helpRequestFixtures";
+
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import _mockConsole from "jest-mock-console";
@@ -22,11 +24,11 @@ jest.mock('react-toastify', () => {
     };
 });
 
-describe("ArticleIndexPage tests", () => {
+describe("UCSBDatesIndexPage tests", () => {
 
     const axiosMock =new AxiosMockAdapter(axios);
 
-    const testId = "ArticleTable";
+    const testId = "HelpRequestTable";
 
     const setupUserOnly = () => {
         axiosMock.reset();
@@ -45,12 +47,12 @@ describe("ArticleIndexPage tests", () => {
     test("renders without crashing for regular user", () => {
         setupUserOnly();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/article/all").reply(200, []);
+        axiosMock.onGet("/api/HelpRequest/all").reply(200, []);
 
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <ArticleIndexPage />
+                    <HelpRequestIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -61,12 +63,12 @@ describe("ArticleIndexPage tests", () => {
     test("renders without crashing for admin user", () => {
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/article/all").reply(200, []);
+        axiosMock.onGet("/api/HelpRequest/all").reply(200, []);
 
         render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <ArticleIndexPage />
+                    <HelpRequestIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -74,15 +76,15 @@ describe("ArticleIndexPage tests", () => {
 
     });
 
-    test("renders three Articles without crashing for regular user", async () => {
+    test("renders three helpRequests without crashing for regular user", async () => {
         setupUserOnly();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/article/all").reply(200, articleFixtures.threeArticles);
+        axiosMock.onGet("/api/HelpRequest/all").reply(200, helpRequestFixtures.threeRequests);
 
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <ArticleIndexPage />
+                    <HelpRequestIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -93,15 +95,15 @@ describe("ArticleIndexPage tests", () => {
 
     });
 
-    test("renders three Articles without crashing for admin user", async () => {
+    test("renders three helpRequests without crashing for admin user", async () => {
         setupAdminUser();
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/article/all").reply(200, articleFixtures.threeArticles);
+        axiosMock.onGet("/api/HelpRequest/all").reply(200, helpRequestFixtures.threeRequests);
 
         const { getByTestId } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <ArticleIndexPage />
+                    <HelpRequestIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
@@ -116,19 +118,19 @@ describe("ArticleIndexPage tests", () => {
         setupUserOnly();
 
         const queryClient = new QueryClient();
-        axiosMock.onGet("/api/article/all").timeout();
+        axiosMock.onGet("/api/HelpRequest/all").timeout();
 
         const { queryByTestId, getByText } = render(
             <QueryClientProvider client={queryClient}>
                 <MemoryRouter>
-                    <ArticleIndexPage />
+                    <HelpRequestIndexPage />
                 </MemoryRouter>
             </QueryClientProvider>
         );
 
         await waitFor(() => { expect(axiosMock.history.get.length).toBeGreaterThanOrEqual(3); });
 
-        const expectedHeaders = ['ID', 'Title', 'URL', 'Explanation', 'Email', 'Date Added'];
+        const expectedHeaders = ['Id',  'Requester Email', 'Team Id','Table or Breakout Room','Time of Request','Explanation','Solved?'];
     
         expectedHeaders.forEach((headerText) => {
           const header = getByText(headerText);
@@ -142,21 +144,21 @@ describe("ArticleIndexPage tests", () => {
     //     setupAdminUser();
 
     //     const queryClient = new QueryClient();
-    //     axiosMock.onGet("/api/article/all").reply(200, articleFixtures.threeArticles);
-    //     axiosMock.onDelete("/api/article", {params: {id: "1"}}).reply(200, "Article with id 1 was deleted");
+    //     axiosMock.onGet("/api/HelpRequest/all").reply(200, helpRequestFixtures.threeRequests);
+    //     axiosMock.onDelete("/api/ucsbdiningcommons", {params: {code: "de-la-guerra"}}).reply(200, "DiningCommons with id de-la-guerra was deleted");
 
 
     //     const { getByTestId } = render(
     //         <QueryClientProvider client={queryClient}>
     //             <MemoryRouter>
-    //                 <ArticleIndexPage />
+    //                 <HelpRequestIndexPage />
     //             </MemoryRouter>
     //         </QueryClientProvider>
     //     );
 
     //     await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
 
-    //    expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("1"); 
+    //    expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("de-la-guerra"); 
 
 
     //     const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
@@ -164,7 +166,7 @@ describe("ArticleIndexPage tests", () => {
        
     //     fireEvent.click(deleteButton);
 
-    //     await waitFor(() => { expect(mockToast).toBeCalledWith("Article with id 1 was deleted") });
+    //     await waitFor(() => { expect(mockToast).toBeCalledWith("DiningCommons with id de-la-guerra was deleted") });
 
     // });
 
