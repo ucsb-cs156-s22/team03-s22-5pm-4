@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { _fireEvent, render, _waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewIndexPage";
@@ -26,7 +26,7 @@ describe("MenuItemReviewIndexPage tests", () => {
 
     const axiosMock =new AxiosMockAdapter(axios);
 
-    const testId = "ReviewTable";
+    const _testId = "ReviewTable";
 
     const setupUserOnly = () => {
         axiosMock.reset();
