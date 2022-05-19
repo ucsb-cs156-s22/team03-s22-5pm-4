@@ -400,3 +400,4 @@ describe("AppNavbar tests", () => {
         await waitFor( () => expect(getByTestId(/appnavbar-help-request-list/)).toBeInTheDocument() );
 
     });
+   });
