@@ -9,7 +9,7 @@ import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import { reviewFixtures } from "fixtures/reviewFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-//import mockConsole from "jest-mock-console";
+import _mockConsole from "jest-mock-console";
 
 
 const mockToast = jest.fn();
@@ -87,9 +87,9 @@ describe("MenuItemReviewIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toHaveTextContent(1); } );
-        expect(getByTestId(`${testId}-cell-row-1-col-itemId`)).toHaveTextContent(2);
-        expect(getByTestId(`${testId}-cell-row-2-col-itemId`)).toHaveTextContent(3);
+        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); } );
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(2);
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(3);
 
     });
 
@@ -106,9 +106,9 @@ describe("MenuItemReviewIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toHaveTextContent(1); });
-        expect(getByTestId(`${testId}-cell-row-1-col-itemId`)).toHaveTextContent(2);
-        expect(getByTestId(`${testId}-cell-row-2-col-itemId`)).toHaveTextContent(3);
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); });
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(2);
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(3);
 
     });
 
@@ -135,7 +135,7 @@ describe("MenuItemReviewIndexPage tests", () => {
           expect(header).toBeInTheDocument();
         });
 
-        expect(queryByTestId(`${testId}-cell-row-0-col-itemId`)).not.toBeInTheDocument();
+        expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
     });
 
         test("test what happens when you click delete, admin", async () => {
@@ -143,7 +143,7 @@ describe("MenuItemReviewIndexPage tests", () => {
 
         const queryClient = new QueryClient();
         axiosMock.onGet("/api/MenuItemReview/all").reply(200, reviewFixtures.threeReviews);
-        axiosMock.onDelete("/api/MenuItemReview").reply(200, "Review with id 1 was deleted");
+        axiosMock.onDelete("/api/MenuItemReview", {params: {id: 1}}).reply(200, "Review with id 1 was deleted");
 
 
         const { getByTestId } = render(
@@ -154,9 +154,9 @@ describe("MenuItemReviewIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toBeInTheDocument(); });
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
 
-       expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toHaveTextContent(1); 
+       expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); 
 
 
         const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);

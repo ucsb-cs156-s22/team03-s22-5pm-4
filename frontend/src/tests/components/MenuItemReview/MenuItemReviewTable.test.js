@@ -69,8 +69,8 @@ describe("MenuItemReviewTable tests", () => {
     );
 
 
-    const expectedHeaders = ['Item Id','Reviewer Email','Stars','Date Reviewed','Comments'];
-    const expectedFields = ['itemId','reviewerEmail','stars','dateReviewed','comments'];
+    const expectedHeaders = ['id','Item Id','Reviewer Email','Stars','Date Reviewed','Comments'];
+    const expectedFields = ['id','itemId','reviewerEmail','stars','dateReviewed','comments'];
     const testId = "MenuItemReviewTable";
 
     expectedHeaders.forEach((headerText) => {
@@ -92,9 +92,9 @@ describe("MenuItemReviewTable tests", () => {
     // expect(editButton).toBeInTheDocument();
     // expect(editButton).toHaveClass("btn-primary");
 
-    // const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
-    // expect(deleteButton).toBeInTheDocument();
-    // expect(deleteButton).toHaveClass("btn-danger");
+    const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+    expect(deleteButton).toBeInTheDocument();
+    expect(deleteButton).toHaveClass("btn-danger");
 
   });
 

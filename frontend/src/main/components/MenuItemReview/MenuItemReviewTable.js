@@ -35,6 +35,10 @@ export default function MenuItemReviewTable({ review, currentUser }) {
 
     const columns = [
         {
+            Header: "id",
+            accessor: "id",
+        },
+        {
             Header: 'Item Id',
             accessor: 'itemId', // needed for tests
         },
@@ -62,7 +66,7 @@ export default function MenuItemReviewTable({ review, currentUser }) {
     const columnsIfAdmin = [
         ...columns,
         // ButtonColumn("Edit", "primary", editCallback, testid),
-        ButtonColumn("Delete", "danger", deleteCallback, testid)
+        ButtonColumn("Delete", "danger", deleteCallback, testid, "id")
     ];
 
     const columnsToDisplay = hasRole(currentUser, "ROLE_ADMIN") ? columnsIfAdmin : columns;
