@@ -35,7 +35,7 @@ const diningCommonsFixtures = {
             "hasDiningCam": true,
             "latitude": 34.417723,
             "longitude": -119.867427
-        } 
+        }
     ]
 };
 
