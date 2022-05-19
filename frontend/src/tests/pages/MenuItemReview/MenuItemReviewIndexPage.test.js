@@ -1,4 +1,4 @@
-import { _fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewIndexPage";
@@ -87,9 +87,9 @@ describe("MenuItemReviewIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toHaveTextContent(1); } );
-        expect(getByTestId(`${testId}-cell-row-1-col-itemId`)).toHaveTextContent(2);
-        expect(getByTestId(`${testId}-cell-row-2-col-itemId`)).toHaveTextContent(3);
+        await waitFor(  () => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); } );
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(2);
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(3);
 
     });
 
@@ -106,9 +106,9 @@ describe("MenuItemReviewIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-itemId`)).toHaveTextContent(1); });
-        expect(getByTestId(`${testId}-cell-row-1-col-itemId`)).toHaveTextContent(2);
-        expect(getByTestId(`${testId}-cell-row-2-col-itemId`)).toHaveTextContent(3);
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); });
+        expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(2);
+        expect(getByTestId(`${testId}-cell-row-2-col-id`)).toHaveTextContent(3);
 
     });
 
@@ -135,7 +135,37 @@ describe("MenuItemReviewIndexPage tests", () => {
           expect(header).toBeInTheDocument();
         });
 
-        expect(queryByTestId(`${testId}-cell-row-0-col-itemId`)).not.toBeInTheDocument();
+        expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
+    });
+
+        test("test what happens when you click delete, admin", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+        axiosMock.onGet("/api/MenuItemReview/all").reply(200, reviewFixtures.threeReviews);
+        axiosMock.onDelete("/api/MenuItemReview", {params: {id: 1}}).reply(200, "Review with id 1 was deleted");
+
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <MenuItemReviewIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+
+       expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent(1); 
+
+
+        const deleteButton = getByTestId(`${testId}-cell-row-0-col-Delete-button`);
+        expect(deleteButton).toBeInTheDocument();
+       
+        fireEvent.click(deleteButton);
+
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Review with id 1 was deleted") });
+
     });
 
 });
