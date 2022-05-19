@@ -6,7 +6,7 @@ import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewInd
 
 import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import { reviewFixtures } from "fixtures/reviewFixtures";
+//import { reviewFixtures } from "fixtures/reviewFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import _mockConsole from "jest-mock-console";
@@ -26,8 +26,7 @@ describe("MenuItemReviewIndexPage tests", () => {
 
     const axiosMock =new AxiosMockAdapter(axios);
 
-
-    const testId = "MenuItemReviewTable";
+    const _testId = "MenuItemReviewTable";
 
     const setupUserOnly = () => {
         axiosMock.reset();
