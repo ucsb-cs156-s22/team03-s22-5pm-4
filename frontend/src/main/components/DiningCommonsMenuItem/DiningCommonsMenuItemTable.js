@@ -3,17 +3,7 @@ import { useBackendMutation } from "main/utils/useBackend";
 import { onDeleteSuccess } from "main/utils/DiningCommonsMenuItemUtils";
 import { _useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
-
-
-export function cellToAxiosParamsDelete(cell) {
-    return {
-        url: "/api/ucsbdiningcommonsmenuitem",
-        method: "DELETE",
-        params: {
-            id: cell.row.values.id
-        }
-    }
-}
+import { cellToAxiosParamsDelete } from "main/utils/DiningCommonsMenuItemUtils";
 
 export default function DiningCommonsMenuItemTable({ diningCommonsMenuItem, currentUser }) {
 
